@@ -1,21 +1,36 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { FlatList, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Botao } from '@/components/Botao';
-import { useAuth } from '@/context/AuthContext';
+import { CartazCard } from '@/components/CartazCard';
+import { Estado } from '@/components/Estado';
+import { TituloSecao } from '@/components/TituloSecao';
 import { useEstilos } from '@/context/ThemeContext';
-import { Cores, fontSize, spacing } from '@/theme';
+import { useFetch } from '@/hooks/useFetch';
+import { api } from '@/services/api';
+import { comCache } from '@/services/cache';
+import { Cores, spacing } from '@/theme';
 
 export default function Inicio() {
-  const { usuario, sair } = useAuth();
   const styles = useEstilos(estilos);
+  // useFetch cuida de loading e erro; comCache guarda a resposta por 5 minutos
+  const { dados, loading, erro, recarregar } = useFetch(() => comCache('populares:0', () => api.populares(0)));
+  const lista = dados ?? [];
 
   return (
-    <SafeAreaView style={styles.tela}>
-      <View style={styles.centro}>
-        <Text style={styles.ola}>Olá, {usuario?.nome}!</Text>
-        <Text style={styles.sub}>Login, cadastro e sessão funcionando. As telas do app chegam na Parte 2.</Text>
-        <Botao titulo="Sair" variante="perigo" icone="log-out-outline" onPress={sair} />
-      </View>
+    <SafeAreaView style={styles.tela} edges={['top']}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <TituloSecao texto="Populares" />
+        <Estado carregando={loading} erro={erro} vazio={lista.length === 0} aoTentar={() => recarregar()}>
+          <FlatList
+            horizontal
+            data={lista}
+            keyExtractor={(t) => `${t.fonte}-${t.id}`}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.fila}
+            renderItem={({ item }) => <CartazCard item={item} />}
+          />
+        </Estado>
+        <View style={{ height: spacing.xl }} />
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -23,7 +38,5 @@ export default function Inicio() {
 const estilos = (c: Cores) =>
   StyleSheet.create({
     tela: { flex: 1, backgroundColor: c.background },
-    centro: { flex: 1, justifyContent: 'center', gap: spacing.md, padding: spacing.lg },
-    ola: { color: c.text, fontSize: fontSize.grande, fontWeight: '800' },
-    sub: { color: c.textSoft, fontSize: fontSize.texto },
+    fila: { paddingHorizontal: spacing.md, gap: spacing.md, alignItems: 'flex-start' },
   });
