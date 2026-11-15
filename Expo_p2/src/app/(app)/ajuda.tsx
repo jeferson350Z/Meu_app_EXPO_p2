@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { FormContato } from '@/components/FormContato';
 import { useEstilos, useTema } from '@/context/ThemeContext';
 import { Cores, fontSize, radius, spacing } from '@/theme';
 
@@ -33,6 +34,8 @@ export default function Ajuda() {
             </Pressable>
           );
         })}
+
+        <FormContato />
       </ScrollView>
     </KeyboardAvoidingView>
   );
