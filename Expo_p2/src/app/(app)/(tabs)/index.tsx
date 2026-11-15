@@ -5,6 +5,8 @@ import { BannerOffline } from '@/components/BannerOffline';
 import { CartazCard } from '@/components/CartazCard';
 import { Estado } from '@/components/Estado';
 import { TituloSecao } from '@/components/TituloSecao';
+import { TopoInicio } from '@/components/TopoInicio';
+import { VistosRecentemente } from '@/components/VistosRecentemente';
 import { useEstilos, useTema } from '@/context/ThemeContext';
 import { useFetch } from '@/hooks/useFetch';
 import { useOnline } from '@/hooks/useOnline';
@@ -73,6 +75,7 @@ export default function Inicio() {
         showsVerticalScrollIndicator={false}
         refreshControl={<RefreshControl refreshing={atualizando} onRefresh={atualizar} tintColor={cores.primary} colors={[cores.primary]} />}
       >
+        <TopoInicio />
         {destaque ? (
           <Pressable style={styles.destaque} onPress={() => abrirDetalhes(destaque)}>
             {destaque.fundo ? <Image source={{ uri: destaque.fundo }} style={styles.destaqueImg} resizeMode="cover" /> : null}
@@ -85,6 +88,7 @@ export default function Inicio() {
           </Pressable>
         ) : null}
 
+        <VistosRecentemente />
         <TituloSecao texto="Populares" />
         <Estado
           carregando={primeira.loading && !primeira.dados}
