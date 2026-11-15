@@ -2,6 +2,7 @@ import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Stack, useLocalSearchParams } from 'expo-router';
 import { BotaoAssistir } from '@/components/BotaoAssistir';
 import { BotaoBaixar } from '@/components/BotaoBaixar';
+import { BotaoFavorito } from '@/components/BotaoFavorito';
 import { Estado } from '@/components/Estado';
 import { useEstilos } from '@/context/ThemeContext';
 import { useFetch } from '@/hooks/useFetch';
@@ -41,6 +42,7 @@ export default function Detalhes() {
             <View style={styles.acoes}>
               <BotaoAssistir titulo={titulo} />
               <BotaoBaixar titulo={titulo} />
+              <BotaoFavorito titulo={titulo} />
             </View>
 
             <Text style={styles.secao}>Sinopse</Text>
