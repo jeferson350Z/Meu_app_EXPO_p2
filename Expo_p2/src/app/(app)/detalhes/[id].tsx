@@ -1,5 +1,6 @@
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Stack, useLocalSearchParams } from 'expo-router';
+import { BotaoAssistir } from '@/components/BotaoAssistir';
 import { Estado } from '@/components/Estado';
 import { useEstilos } from '@/context/ThemeContext';
 import { useFetch } from '@/hooks/useFetch';
@@ -36,7 +37,9 @@ export default function Detalhes() {
                 .join(' • ')}
             </Text>
 
-            <View style={styles.acoes}>{/* os botões entram nos próximos commits */}</View>
+            <View style={styles.acoes}>
+              <BotaoAssistir titulo={titulo} />
+            </View>
 
             <Text style={styles.secao}>Sinopse</Text>
             <Text style={styles.sinopse}>{titulo.sinopse}</Text>
